@@ -1,7 +1,7 @@
 symfony-http-client-ext
 --
 
-Classes for solving the most common problems + functions that does not exist in native PHP.
+Functions for solving the most common problems. 
 
 How to use
 ---
