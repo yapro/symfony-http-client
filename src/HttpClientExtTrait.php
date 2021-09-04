@@ -51,8 +51,10 @@ trait HttpClientExtTrait
         string $content = null,
         bool $changeHistory = true
     ) {
-        $server = $this->getServerParametersFromHeaderParameters($headers);
+        if ($this->getHttpClient() instanceof AbstractBrowser) {
+            $headers = $this->getServerParametersFromHeaderParameters($headers);
+        }
 
-        return $this->getHttpClient()->request($method, $uri, $parameters, $files, $server, $content, $changeHistory);
+        return $this->getHttpClient()->request($method, $uri, $parameters, $files, $headers, $content, $changeHistory);
     }
 }
