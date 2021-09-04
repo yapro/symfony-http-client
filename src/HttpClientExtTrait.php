@@ -14,6 +14,9 @@ trait HttpClientExtTrait
     private static string $headerContentType = 'content_type';
     private static string $headerAccept = 'Accept';
 
+    /**
+     * Трансформировать переменную $headers в переменную $server
+     */
     protected function getServerParametersFromHeaderParameters(array $headers): array
     {
         $result = [];
@@ -36,6 +39,9 @@ trait HttpClientExtTrait
         return $result;
     }
 
+    /**
+     * Обертка, чтобы автоматом трансформировать переменную $headers в переменную $server
+     */
     protected function sendRequest(
         string $method,
         string $uri,
