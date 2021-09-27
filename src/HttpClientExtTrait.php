@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace YaPro\SymfonyHttpClientExt;
 
+use Symfony\Component\BrowserKit\AbstractBrowser;
+
 /**
  * Based on https://symfony.com/doc/current/components/http_client.html
  *
