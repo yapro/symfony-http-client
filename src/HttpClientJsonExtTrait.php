@@ -26,6 +26,9 @@ trait HttpClientJsonExtTrait
     protected function requestJson(string $method, string $uri, $parameters = null, $headers = [])
     {
         $content = null;
+        if (is_string($parameters) && !empty($parameters)) {
+            $content = $parameters;
+        }
         if (is_array($parameters) && !empty($parameters)) {
             $content = $this->getJsonHelper()->jsonEncode($parameters);
         }
