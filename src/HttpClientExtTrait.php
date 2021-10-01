@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace YaPro\SymfonyHttpClientExt;
 
 use Symfony\Component\BrowserKit\AbstractBrowser;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * Based on https://symfony.com/doc/current/components/http_client.html
@@ -43,6 +46,16 @@ trait HttpClientExtTrait
 
     /**
      * Обертка, чтобы автоматом трансформировать переменную $headers в переменную $server
+     *
+     * @param string $method
+     * @param string $uri
+     * @param array $parameters
+     * @param array $files
+     * @param array $headers
+     * @param string|null $content
+     * @param bool $changeHistory
+     * @return Crawler|ResponseInterface|null
+     * @throws TransportExceptionInterface
      */
     protected function sendRequest(
         string $method,
