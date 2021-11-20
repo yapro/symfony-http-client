@@ -31,5 +31,6 @@
     }
   },
 
-  "target-dir": ""
+  "target-dir": "",
+  "minimum-stability": "dev"
 }
