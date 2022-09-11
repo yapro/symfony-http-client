@@ -42,11 +42,11 @@ trait HttpClientJsonLdExtTrait
 
     /**
      * @param string $uri
-     * @param array|string $parameters array OR json string
+     * @param array|string|null $parameters array OR json string
      * @return Crawler|ResponseInterface|null
      * @throws TransportExceptionInterface
      */
-    protected function postLd(string $uri, $parameters)
+    protected function postLd(string $uri, $parameters = null)
     {
         return $this->requestJsonLd('POST', $uri, $parameters);
     }
