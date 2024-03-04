@@ -1,7 +1,7 @@
 symfony-http-client-ext
 --
 
-Functions for solving the most common problems. 
+Functions to solve most Symfony HttpClient problems. 
 
 How to use
 ---

@@ -1,6 +1,6 @@
 {
   "name":        "yapro/symfony-http-client-ext",
-  "description": "Functions that does not exist in native PHP",
+  "description": "Converts the current / specified Symfony http request to a curl command.",
   "type":        "library",
   "keywords":    ["php", "symfony", "library", "http", "extensions"],
   "homepage":    "http://yapro.ru",
@@ -23,6 +23,8 @@
 
   "require-dev": {
     "phpunit/phpunit": "*",
+    "symfony/http-foundation": "*",
+    "symfony/browser-kit": "*",
     "symfony/http-foundation": "*"
   },
 
