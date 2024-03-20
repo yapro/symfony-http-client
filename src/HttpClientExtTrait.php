@@ -74,4 +74,15 @@ trait HttpClientExtTrait
         // HTTP-клиентом автоматически и отправка здесь заголовков на них никак не повлияет
         return $this->getHttpClient()->request($method, $uri, $parameters, $files, $headers, $content, $changeHistory);
     }
+
+    /**
+     * @param string $url
+     * @param array $parameters
+     * @return Crawler|ResponseInterface|null
+     * @throws TransportExceptionInterface
+     */
+    protected function get(string $url, array $parameters = [])
+    {
+        return $this->sendRequest('GET', $url . ($parameters ? '?' . http_build_query($parameters) : ''));
+    }
 }
