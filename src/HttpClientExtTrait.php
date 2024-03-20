@@ -66,13 +66,13 @@ trait HttpClientExtTrait
         string $content = null,
         bool $changeHistory = true
     ) {
-        if ($this->getHttpClient() instanceof AbstractBrowser) {
+        if (self::$client instanceof AbstractBrowser) {
             $headers = $this->getServerParametersFromHeaderParameters($headers);
         }
 
         // внимание, если до этого момента выполнялся запрос в результате которого вернулись куки, они будут запомнены
         // HTTP-клиентом автоматически и отправка здесь заголовков на них никак не повлияет
-        return $this->getHttpClient()->request($method, $uri, $parameters, $files, $headers, $content, $changeHistory);
+        return self::$client->request($method, $uri, $parameters, $files, $headers, $content, $changeHistory);
     }
 
     /**
