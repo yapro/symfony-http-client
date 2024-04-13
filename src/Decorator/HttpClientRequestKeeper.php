@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace YaPro\SymfonyHttpClientExt\Decorator;
 
+use phpDocumentor\Reflection\Types\This;
 use ReflectionClass;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpClient\DecoratorTrait;
@@ -46,7 +47,7 @@ class HttpClientRequestKeeper implements HttpClientInterface, ResetInterface
         return [
             'get_params' => $this->options['query'] ?? [],
             'body_json' => $this->options['json'] ?? [],
-            'body_raw' => $this->options['body'] ?? [],
+            'body_raw' => $this->getBody(),
         ];
     }
 
@@ -68,24 +69,37 @@ class HttpClientRequestKeeper implements HttpClientInterface, ResetInterface
             'the correct $variable name of HttpClientInterface in your class __construct. And then remove the cache: rm -rf var/cache/*';
         }
         $site = '';
-        $body = '';
         $query = '';
         $headers = [];
+        $body = $this->getBody();
         $defaultOptionsByRegexp = $this->getClassPropertyValue($client, 'defaultOptionsByRegexp');
         $defaultRegexp = $this->getClassPropertyValue($client, 'defaultRegexp');
         $site = $defaultOptionsByRegexp[$defaultRegexp]['base_uri'];
         $headers = $defaultOptionsByRegexp[$defaultRegexp]['headers'];
+        $authBasic = $defaultOptionsByRegexp[$defaultRegexp]['auth_basic'] ?? '';
+        if ($authBasic && !isset($headers['Authorization'])) {
+            $headers['Authorization'] = 'Basic '. base64_encode($authBasic);
+        }
         if (isset($this->options['query'])) {
             $query = '?' . http_build_query($this->options['query']);
         }
         if (isset($this->options['json'])) {
             $body = self::jsonEncode($this->options['json'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
-        if (isset($this->options['body'])) {
-            $body = $this->options['body'];
-        }
 
         return $this->curlConverter->getCurlCommand($this->method, $site . $this->url . $query, $body, $headers);
+    }
+    
+    private function getBody(): string
+    {
+        if (!isset($this->options['body'])) {
+            return '';
+        }
+        if (!is_string($this->options['body'])) {
+            return 'HttpClientRequestKeeper unsupported body type: ' . gettype($this->options['body']);
+        }
+        
+        return $this->options['body'];
     }
 
     private function hasProperty($object, $propertyName): bool
