@@ -86,6 +86,9 @@ class HttpClientRequestKeeper implements HttpClientInterface, ResetInterface
         if (isset($this->options['json'])) {
             $body = self::jsonEncode($this->options['json'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
+        if (is_resource($body)) {
+            $body = 'Body has a resource type';
+        }
 
         return $this->curlConverter->getCurlCommand($this->method, $site . $this->url . $query, $body, $headers);
     }
