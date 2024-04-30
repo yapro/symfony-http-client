@@ -21,9 +21,9 @@ class HttpClientRequestKeeper implements HttpClientInterface, ResetInterface
     private HttpClientInterface $client;
     private SymfonyRequestToCurlCommandConverter $curlConverter;
 
-    private string $method;
-    private string $url;
-    private array $options;
+    private string $method = '';
+    private string $url = '';
+    private array $options = [];
 
     public function __construct(
         HttpClientInterface $decoratedClient,
@@ -54,6 +54,9 @@ class HttpClientRequestKeeper implements HttpClientInterface, ResetInterface
     // удобно взять себе curl команду и выполнить, чтобы убедиться самостоятельно в проблеме 
     public function getCurlCommand(): string
     {
+        if ($this->method === '') {
+            return 'No request has been initiated yet';
+        }
         $client = $this->client;
         while ($client !== null) {
             if (!$this->hasProperty($client, 'client')) {
