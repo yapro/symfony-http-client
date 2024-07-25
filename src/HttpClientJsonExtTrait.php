@@ -30,7 +30,7 @@ trait HttpClientJsonExtTrait
             $content = $parameters;
         }
         if (is_array($parameters) && !empty($parameters)) {
-            $content = $this->getJsonHelper()->jsonEncode($parameters);
+            $content = self::$jsonHelper->jsonEncode($parameters);
         }
 
         $headers = array_merge(
