@@ -71,13 +71,16 @@ class HttpClientRequestKeeper implements HttpClientInterface, ResetInterface
             return 'Your client is configured incorrectly. You may have a problem with dependency injection. Try using '.
             'the correct $variable name of HttpClientInterface in your class __construct. And then remove the cache: rm -rf var/cache/*';
         }
-        $site = '';
         $query = '';
         $headers = [];
         $body = $this->getBody();
         $defaultOptionsByRegexp = $this->getClassPropertyValue($client, 'defaultOptionsByRegexp');
         $defaultRegexp = $this->getClassPropertyValue($client, 'defaultRegexp');
-        $site = $defaultOptionsByRegexp[$defaultRegexp]['base_uri'];
+        if (str_starts_with($this->url, 'http://') || str_starts_with($this->url, 'https://')) {
+            $site = '';
+        } else {
+            $site = $defaultOptionsByRegexp[$defaultRegexp]['base_uri'];
+        }
         $headers = $defaultOptionsByRegexp[$defaultRegexp]['headers'];
         $authBasic = $defaultOptionsByRegexp[$defaultRegexp]['auth_basic'] ?? '';
         if ($authBasic && !isset($headers['Authorization'])) {
